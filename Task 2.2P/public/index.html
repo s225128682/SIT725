@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Addition</title>
+</head>
+<body>
+  <h1>Addition</h1>
+  <form action="" id="addition">
+    <label for="num1">First Number</label>
+    <input type="number" id="num1">
+    <label for="num2">Second Number</label>
+    <input type="number" id="num2">
+    <button type="submit">Output</button>
+  </form>
+  <p id="sum"></p>
+
+  <script>
+    document.getElementById('addition').addEventListener('submit', function(event){
+        event.preventDefault();
+
+        const num1 = parseInt(document.getElementById('num1').value);
+        const num2 = parseInt(document.getElementById('num2').value);
+        fetch('/api/sum',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({num1, num2})
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('sum').innerText =`Sum: ${data.addition}`;
+        })
+        .catch(error => {
+            console.error('Error Found:', error);
+            document.getElementById('sum').innerText = 'Error Found';
+        });
+    });
+  </script>
+</body>
+</html>
